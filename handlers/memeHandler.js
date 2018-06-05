@@ -6,7 +6,7 @@ const CONTENT_TYPE_HTML = 'text/html';
 const IMAGES_COUNT = 5; //1000
 const DB_PATH = __dirname + '/../db/db.json';
 
-const db = require('../db/db.json');
+let db = require('../db/db.json');
 const fs = require('fs');
 const url = require('url');
 const formidable = require('formidable');
@@ -123,18 +123,28 @@ function getDetails(req, res) {
 }
 
 function viewAll(req, res) {
-    let replaceContent = '';
 
-    for (let currentMeme of db) {
-        if (currentMeme.privacy !== 'on') continue
+    fs.readFile(__dirname + '/../db/db.json', 'utf-8', (err, data) => {
+        if (err) {
+            console.log(err)
+            return
+        }
 
-        replaceContent += `<div class="meme">
+        db = JSON.parse(data);
+        let replaceContent = '';
+
+        for (let currentMeme of db) {
+            console.log(currentMeme);
+            if (currentMeme.privacy !== 'on') continue
+
+            replaceContent += `<div class="meme">
                                <a href="/getDetails?id=${currentMeme.id}">
-                               <img class="memePoster" src="${currentMeme.memeSrc}"/>          
+                               <img class="memePoster" src="${currentMeme.memeSrc}"/>
                                </div>`;
-    }
+        }
 
-    processGetRequest(VIEW_ALL_FILE_PATH, replaceContent, res)
+        processGetRequest(VIEW_ALL_FILE_PATH, replaceContent, res)
+    })
 }
 
 function processGetRequest(pathToFile, replaceContent, res) {

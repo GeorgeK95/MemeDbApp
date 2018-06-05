@@ -8,7 +8,8 @@ let typeChecker = path => {
         '.html': 'text/html',
         '.js': 'text/javascript',
         '.png': 'image/png',
-        '.jpg': 'image/jpg'
+        '.jpg': 'image/jpg',
+        '.jpeg': 'image/jpeg'
     }
 
     for (let type in support) {
