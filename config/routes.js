@@ -10,6 +10,8 @@ let upload = multer({dest: __dirname + '/../public/memeStorage/3/'});
 module.exports = (app) => {
     app.get('/', handlers.home.index);
 
+    app.get('/greeting', handlers.home.index);
+
     app.get('/addMeme', handlers.meme.addMemeGet);
     app.post('/addMeme', upload.single('image'), handlers.meme.addMemePost);
 
